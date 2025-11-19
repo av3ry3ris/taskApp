@@ -131,8 +131,12 @@ header h1 {
     text-decoration: line-through;
 }
 
+.btns-box {
+    width: 15%;
+}
+
 .btns-box i:first-child {
-    padding-right: 1em;
+    padding-right: .75em;
 }
 .btns-box i:hover {
     cursor: pointer;
