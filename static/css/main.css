@@ -143,6 +143,10 @@ header h1 {
 
 .btns-box {
     width: 15%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 
 .btns-box i:first-child {
