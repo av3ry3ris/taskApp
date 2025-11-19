@@ -52,8 +52,6 @@
 }
 
 
-
-
 body {
     font-family: "Arimo", sans-serif;
     background: var(--clr-surface-a0);
@@ -61,9 +59,7 @@ body {
 }
 
 
-
-
-input {
+input, select {
     background-color: var(--clr-surface-a10);
     border: none;
     border-radius: 3px;
@@ -91,7 +87,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: #393939;
+    background: var(--clr-surface-a10);
     color: #f3f3f3;
     padding: 2em .5em;
 }
@@ -114,6 +110,17 @@ header h1 {
     border-radius: 3px;
     margin: .5em;
     background-color: var(--clr-surface-a10);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.task-content {
+    width: 85%;
+}
+
+.complete-checkbox {
+    margin-right: 2em;
 }
 
 .task i {
@@ -122,6 +129,13 @@ header h1 {
 
 .done {
     text-decoration: line-through;
+}
+
+.btns-box i:first-child {
+    padding-right: 1em;
+}
+.btns-box i:hover {
+    cursor: pointer;
 }
 
 .addTask {
