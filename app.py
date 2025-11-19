@@ -51,7 +51,7 @@ def addTask():
     
     db = get_db()
     cursor = db.execute(
-    "INSERT INTO tasks (name, due_date, time, est_time, priority, complete) VALUES (?, ?, ?, ?, ?, 0)",
+    "INSERT INTO tasks (title, due_date, time, est_time, priority, complete) VALUES (?, ?, ?, ?, ?, 0)",
     (title, due_date, time, time_est, priority)
     
 )
