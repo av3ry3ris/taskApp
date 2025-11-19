@@ -69,7 +69,8 @@ input, select {
 }
 
 input::placeholder {
-    color: var(--clr-surface-a0);
+    color: var(--clr-surface-a30);
+    font-style: italic;
 }
 
 #newTask button {
