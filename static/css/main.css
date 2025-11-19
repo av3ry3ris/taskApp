@@ -60,15 +60,16 @@ body {
 
 
 input, select {
-    background-color: var(--clr-surface-a10);
+    background-color: var(--clr-surface-a40);
     border: none;
     border-radius: 3px;
     padding: 0.45em;
     margin: .45em 0;
+    color: var(--clr-surface-a0);
 }
 
 input::placeholder {
-    color: var(--clr-surface-a50);
+    color: var(--clr-surface-a0);
 }
 
 #newTask button {
@@ -100,12 +101,12 @@ header h1 {
 .content-container {
     display: flex;
     flex-flow: row;
-    justify-content: space-between;
+    padding-top: 1em;
 }
 
 .task {
     padding: 1em;
-    width: 60%;
+    width: 85%;
     border: 1px solid grey;
     border-radius: 3px;
     margin: .5em;
@@ -115,9 +116,18 @@ header h1 {
     justify-content: center;
 }
 
+.task-container {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+}
+
 .task-content {
     width: 85%;
 }
+
+
 
 .complete-checkbox {
     margin-right: 2em;
@@ -143,14 +153,27 @@ header h1 {
 }
 
 .addTask {
-    width: 35%;
+    width: 30%;
 }
 
 form {
     display: flex;
     flex-flow: column;
-    width: 45%;
+    width: 75%;
 }
+
+.form-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    background-color: var(--clr-surface-a10);
+    border: 1px solid grey;
+    border-radius: 3px;
+    padding: 3em 0;
+}
+
+
+
 
 #main {
     width: 65%;
