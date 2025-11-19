@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+        <link href="/static/css/main.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Task Manager App</h1>
+        </header>
+        <div class="content-container">
+        <section id="main">
+            
+            <div class="task-container">
+                
+                {% for task in tasks %}
+                {% set rowid = task[0] %}
+                {% set name = task[1] %}
+                {% set due_date = task[2] %}
+                {% set time = task[3] %}
+                {% set est_time = task[4] %}
+                {% set priority = task[5] %}
+                {% set isComplete = task[6] %}
+
+                <div class="task">
+                    <div class="task-content {%if task.complete %}done{% endif %}">
+                        <i>Task ID: {{rowid}}</i>
+                        <h2>{{name}}</h2>
+                        <p>Due: {{due_date}} {{time}}</p>
+                        <p>Est. task time: {{est_time}}</p>
+                        <p>Priority: {{priority}}</p>
+                    </div>
+                        <input class="complete-checkbox" type="checkbox" data-id="{{rowid}}" {% if task.complete %} checked {% endif %}></input>
+                </div>
+                
+                {%endfor%}
+            </div>
+        </section>
+        <section class="addTask">
+            <div class="form-container">
+                <h1>Add Task</h1>
+                <form id="newTask">
+                    <input class="title" placeholder="Title"></input>
+                    <input class="time_est" placeholder="Time Estimation"></input>
+                    <input class="pri" placeholder="Priority"></input>
+                    <button class="submit-btn">Submit</button>
+                </form>
+                </div>
+        </section>
+        </div>
+    
+    <script>
+        $(document).ready(function() {
+            $(".complete-checkbox").on("change", function() {
+                const taskId = $(this).data("id");
+                const complete = $(this).is(":checked") ? 1 : 0;
+                
+                $.ajax({
+                    url: "/complete-task",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        id: taskId,
+                        complete: complete
+                    }),
+                    success: function(response) {
+                        console.log("Updated:", response);
+                    },
+                    error: function(xhr) {
+                        console.error("Error updating task:", xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+    </body>
+</html>

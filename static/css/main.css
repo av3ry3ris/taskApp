@@ -1,11 +1,90 @@
 * {
     margin: 0;
     padding: 0;
+    /** Base colors */
+    --clr-dark-a0: #000000;
+    --clr-light-a0: #ffffff;
+
+    /** Theme primary colors */
+    --clr-primary-a0: #fb5fab;
+    --clr-primary-a10: #fe74b4;
+    --clr-primary-a20: #ff88bd;
+    --clr-primary-a30: #ff9ac6;
+    --clr-primary-a40: #ffacd0;
+    --clr-primary-a50: #ffbdd9;
+
+    /** Theme surface colors */
+    --clr-surface-a0: #0d0d2e;
+    --clr-surface-a10: #242442;
+    --clr-surface-a20: #3d3b57;
+    --clr-surface-a30: #56546e;
+    --clr-surface-a40: #706e84;
+    --clr-surface-a50: #8b899c;
+
+    /** Theme tonal surface colors */
+    --clr-surface-tonal-a0: #231739;
+    --clr-surface-tonal-a10: #392c4d;
+    --clr-surface-tonal-a20: #4f4361;
+    --clr-surface-tonal-a30: #665b76;
+    --clr-surface-tonal-a40: #7e748b;
+    --clr-surface-tonal-a50: #968ea2;
+
+    /** Success colors */
+    --clr-success-a0: #22946e;
+    --clr-success-a10: #47d5a6;
+    --clr-success-a20: #9ae8ce;
+
+    /** Warning colors */
+    --clr-warning-a0: #a87a2a;
+    --clr-warning-a10: #d7ac61;
+    --clr-warning-a20: #ecd7b2;
+
+    /** Danger colors */
+    --clr-danger-a0: #9c2121;
+    --clr-danger-a10: #d94a4a;
+    --clr-danger-a20: #eb9e9e;
+
+    /** Info colors */
+    --clr-info-a0: #21498a;
+    --clr-info-a10: #4077d1;
+    --clr-info-a20: #92b2e5;
+
 }
+
+
+
 
 body {
     font-family: "Arimo", sans-serif;
-    
+    background: var(--clr-surface-a0);
+    color: var(--clr-light-a0);
+}
+
+
+
+
+input {
+    background-color: var(--clr-surface-a10);
+    border: none;
+    border-radius: 3px;
+    padding: 0.45em;
+    margin: .45em 0;
+}
+
+input::placeholder {
+    color: var(--clr-surface-a50);
+}
+
+#newTask button {
+    width: fit-content;
+    padding: .45em 1.5em;
+    margin-top: .45em;
+    background-color: var(--clr-primary-a20);
+    border: none;
+    border-radius: 3px;
+    font-family: "Arimo", sans-serif;
+    font-weight: 500;
+    font-size: 1em;
 }
 
 header {
@@ -22,3 +101,39 @@ header h1 {
     font-weight: 700;
 }
 
+.content-container {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.task {
+    padding: 1em;
+    width: 60%;
+    border: 1px solid grey;
+    border-radius: 3px;
+    margin: .5em;
+    background-color: var(--clr-surface-a10);
+}
+
+.task i {
+    color: var(--clr-primary-a50)
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+.addTask {
+    width: 35%;
+}
+
+form {
+    display: flex;
+    flex-flow: column;
+    width: 45%;
+}
+
+#main {
+    width: 65%;
+}
