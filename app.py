@@ -50,13 +50,26 @@ def addTask():
     priority = data.get("priority")
     
     db = get_db()
-    db.execute(
+    cursor = db.execute(
     "INSERT INTO tasks (name, due_date, time, est_time, priority, complete) VALUES (?, ?, ?, ?, ?, 0)",
     (title, due_date, time, time_est, priority)
+    
 )
+    new_id = cursor.lastrowid
+
     db.commit()
 
-    return jsonify({"status": "ok"})
+    return jsonify({"status": "ok",
+                        "task": {
+                            "taskID": new_id,
+                            "title": title,
+                            "due_date": due_date,
+                            "time": time,
+                            "time_est": time_est,
+                            "priority": priority,
+                            "complete": 0
+                        }
+                    })
 
 @app.route("/delete-task", methods=["POST"])
 def deleteTask():
