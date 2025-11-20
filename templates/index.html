@@ -19,22 +19,22 @@
                 
                 {% for task in tasks %}
                 {% set rowid = task[0] %}
-                {% set name = task[1] %}
+                {% set title = task[1] %}
                 {% set due_date = task[2] %}
                 {% set time = task[3] %}
                 {% set est_time = task[4] %}
                 {% set priority = task[5] %}
                 {% set isComplete = task[6] %}
 
-                <div class="task">
-                    <input class="complete-checkbox" type="checkbox" data-id="{{rowid}}" {% if task.complete %} checked {% endif %}></input>
+                <div class="task" data-id="{{rowid}}">
+                    <input class="complete-checkbox" type="checkbox" data-id="{{rowid}}" {% if task.complete %} checked {% endif %}>
 
                     <div class="task-content {%if task.complete %}done{% endif %}">
-                        <i>Task ID: {{rowid}}</i>
-                        <h2>{{name}}</h2>
-                        <p>Due: {{due_date}} {{time}}</p>
-                        <p>Est. task time: {{est_time}}</p>
-                        <p>Priority: {{priority}}</p>
+                        <i>Task ID: <span>{{rowid}}</span></i>
+                        <h2 class="title">{{title}}</h2>
+                        <p>Due: <span class="due_date">{{due_date}}</span> <span class="time">{{time}}</span></p>
+                        <p>Est. task time: <span class="est_time">{{est_time}}</span></p>
+                        <p>Priority: <span class="priority">{{priority}}</span></p>
                     </div>
                 <div class="btns-box">
                     <i class="edit-task fa-solid fa-pencil" data-id="{{rowid}}"></i>
@@ -50,13 +50,13 @@
                 <h1>Add Task</h1>
                 <form id="newTask">
                     <label for="title">Title</label>
-                    <input id="title" placeholder="Eat a meal"></input>
+                    <input id="title" placeholder="Eat a meal">
                     <label for="due_date">Due Date</label>
-                    <input id="due_date" type="date"></input>
+                    <input id="due_date" type="date">
                     <label for="time">Time</label>
-                    <input id="time" type="time" placeholder="Time"></input>
+                    <input id="time" type="time" placeholder="Time">
                     <label for="time_est">Estimated Time</label>
-                    <input id="time_est" placeholder="Time in Hours"></input>
+                    <input id="time_est" placeholder="Time in Hours">
                     <label for="priority">Priority</label>
                         <select name="priority" id="priority">
                             <option value="Highest">Highest</option>
@@ -65,7 +65,7 @@
                             <option value="Low">Low</option>
                             <option value="Lowest">Lowest</option>
                         </select>
-                    <button class="addTask-btn">Submit</button>
+                    <button class="button btn-primary addTask-btn">Submit</button>
                 </form>
                 </div>
         </section>

@@ -74,15 +74,29 @@ def addTask():
 @app.route("/delete-task", methods=["POST"])
 def deleteTask():
     data = request.get_json()
-    print("RAW JSON:", data)  # <--- debug
-
     task_id = data.get("id")
-    print("TASK ID:", task_id, type(task_id))  # <--- debug
-    
     db = get_db()
     db.execute(
         "DELETE FROM tasks WHERE rowid = ?",
         (int(task_id),)
+    )
+    db.commit()
+    return jsonify({"status": "ok"})
+
+@app.route("/edit-task", methods=["POST"])
+def editTask():
+    data = request.get_json()
+    task_id = data.get("id")
+    title = data.get("title")
+    due_date = data.get("due_date")
+    time = data.get("time")
+    time_est = data.get("est_time")
+    priority = data.get("priority")
+    
+    db = get_db()
+    db.execute(
+        "UPDATE tasks SET title = ?, due_date = ?, time = ?, est_time = ?, priority = ? WHERE rowid = ?",
+        (title, due_date, time, time_est, priority, int(task_id))
     )
     db.commit()
 
