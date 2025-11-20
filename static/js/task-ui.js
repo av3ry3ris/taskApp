@@ -123,7 +123,7 @@ $(document).ready(function() {
                 parent.append('<div class="button-group"><button class="button btn-primary submit-edit">Submit</button><button class="button btn-cancel cancel-edit">Cancel</button></div>');
             });
             
-            $(".task-content").on("click", ".submit-edit", function() {
+            $(".task").on("click", ".submit-edit", function() {
                 const parent = $(this).closest('.task-content');
                 const taskId = $(this).parents('.task').data("id");
                 var title = parent.find(".title");
@@ -131,8 +131,26 @@ $(document).ready(function() {
                 var time = parent.find(".time");
                 var est_time = parent.find(".est_time");
                 var priority = parent.find(".priority");
-                console.log("Inside Click event: " + taskId);
+
                 submitTaskEdit(taskId, title, due_date, time, est_time, priority);
+
+                var new_title = parent.find(".title").val();
+                var new_due_date = parent.find(".due_date").val();
+                var new_time = parent.find(".time").val();
+                var new_est_time = parent.find(".est_time").val();
+                var new_priority = parent.find(".priority").val();
+                
+                console.log(new_priority);
+
+                var newContent = `<div class="task-content">
+                                    <i>Task ID: <span>${taskId}</span></i>
+                                    <h2 class="title">${new_title}</h2>
+                                    <p>Due: <span class="due_date">${new_due_date}</span> <span class="time">${new_time}</span></p>
+                                    <p>Est. task time: <span class="est_time">${new_est_time}</span></p>
+                                    <p>Priority: <span class="priority">${new_priority}</span></p>
+                                </div>`; 
+                
+                parent.replaceWith(newContent);
             });
 
 function submitTaskEdit(taskId, title, due_date, time, est_time, priority) {
@@ -143,7 +161,6 @@ function submitTaskEdit(taskId, title, due_date, time, est_time, priority) {
             var new_est_time = est_time.val();
             var new_pri = priority.val();
             
-
             $.ajax({
                     url: "/edit-task",
                     type: "POST",
@@ -163,6 +180,8 @@ function submitTaskEdit(taskId, title, due_date, time, est_time, priority) {
                         console.error(`Error updating ${taskId}: `, xhr.responseText);
                     }
                 });
+
+                
 }
 
 function appendTask(response) {
