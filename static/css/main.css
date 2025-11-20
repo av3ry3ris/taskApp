@@ -73,18 +73,6 @@ input::placeholder {
     font-style: italic;
 }
 
-#newTask button {
-    width: fit-content;
-    padding: .45em 1.5em;
-    margin-top: .45em;
-    background-color: var(--clr-primary-a20);
-    border: none;
-    border-radius: 3px;
-    font-family: "Arimo", sans-serif;
-    font-weight: 500;
-    font-size: 1em;
-}
-
 button {
     width: fit-content;
     padding: .45em 1.5em;
@@ -108,6 +96,7 @@ button {
     margin-right: .6em;
 }
 
+
 header {
     display: flex;
     align-items: center;
@@ -120,6 +109,13 @@ header {
 header h1 {
     font-size: 1.25em;
     font-weight: 700;
+}
+
+#main {
+    width: 65%;
+    height: 80vh;
+    overflow-y: auto;
+    scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
 }
 
 .content-container {
@@ -154,18 +150,16 @@ header h1 {
     flex-flow: column;
 }
 
-
-
 .complete-checkbox {
     margin-right: 2em;
 }
 
-.task i {
-    color: var(--clr-primary-a50)
-}
-
 .done {
     text-decoration: line-through;
+}
+
+.task i {
+    color: var(--clr-primary-a50)
 }
 
 .btns-box {
@@ -181,6 +175,10 @@ header h1 {
 }
 .btns-box i:hover {
     cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
 }
 
 .addTask {
@@ -203,13 +201,3 @@ form {
     padding: 3em 0;
 }
 
-#main {
-    width: 65%;
-    height: 80vh;
-    overflow-y: auto;
-    scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
-}
-
-.hidden {
-    display: none !important;
-}
