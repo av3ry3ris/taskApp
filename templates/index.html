@@ -25,8 +25,9 @@
                 {% set est_time = task[4] %}
                 {% set priority = task[5] %}
                 {% set isComplete = task[6] %}
-
+                
                 <div class="task" data-id="{{rowid}}">
+                    
                     <input class="complete-checkbox" type="checkbox" data-id="{{rowid}}" {% if task.complete %} checked {% endif %}>
 
                     <div class="task-content {%if task.complete %}done{% endif %}">
@@ -38,7 +39,7 @@
                     </div>
                 <div class="btns-box">
                     <i class="edit-task fa-solid fa-pencil" data-id="{{rowid}}"></i>
-                    <i class="delete-task fa-solid fa-trash" data-id="{{rowid}}"></i>
+                    <i class="promptDelete fa-solid fa-trash" data-id="{{rowid}}"></i>
                 </div>
                 </div>
                 

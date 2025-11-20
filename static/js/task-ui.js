@@ -31,7 +31,7 @@ $(document).ready(function() {
             
 });
 
-        $(".addTask-btn").on("click", function(e) {
+        $(document).on("click", '.addTask-btn' ,function(e) {
                 e.preventDefault();
                 const task_title = $('#title').val();
                 const date = $('#due_date').val();
@@ -61,9 +61,39 @@ $(document).ready(function() {
                 });
             });
 
-            $(".delete-task").on("click", function() {
-                const taskId = $(this).data("id");
+            
+
+            $(document).on("click", ".promptDelete", function() {
+    
+                var task = $(this).closest('.task');
+                
+                var content = task.find('.task-content');
+                var checkbox = task.find('.complete-checkbox');
+
+                var buttons = task.find('.btns-box');
+
+                task.data("oldTitle", task.find(".title").text());
+                task.data("oldDate", task.find(".due_date").text());
+                task.data("oldTime", task.find(".time").text());
+                task.data("oldEst", task.find(".est_time").text());
+                task.data("oldPri", task.find(".priority").text());
+
+                var promptHtml = `<div class="delete-prompt">
+                                    <h2>Delete?</h2>
+                                    <div class="button-group"><button class="button btn-cancel delete-task">Delete</button><button class="button cancel-edit">Cancel</button></div>
+                                  </div>`
+                
+                content.html(promptHtml);
+                buttons.addClass('hidden');
+                checkbox.addClass('hidden');
+
+            });
+
+            $(document).on("click", '.delete-task', function() {
+                
                 const parentTask = $(this).closest('.task');
+                const taskId = parentTask.data("id");
+                
                 console.log(parentTask);
                 $.ajax({
                     url: "/delete-task",
@@ -138,9 +168,18 @@ $(document).ready(function() {
 
             });
             
-            $('.task').on("click", ".cancel-edit", function() {
+            $(document).on("click", ".cancel-edit", function() {
+                        console.log('Cancel!');
+
+                        var task = $(this).closest('.task');
+                        
+                        var buttons = task.find('.btns-box');
+                        var checkbox = task.find('.complete-checkbox');
+
                         const parent = $(this).closest('.task-content');
                         const taskId = $(this).parents('.task').data("id");
+
+                        
 
                         const oldTitle = task.data("oldTitle");
                         const oldDate  = task.data("oldDate");
@@ -161,6 +200,9 @@ $(document).ready(function() {
                         console.log(editBtn);
                         editBtn.removeClass('hidden');
                         parent.replaceWith(oldContent);
+                        
+                        buttons.removeClass('hidden');
+                        checkbox.removeClass('hidden');
                 });
             
             $(".task").on("click", ".submit-edit", function() {
