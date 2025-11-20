@@ -182,6 +182,10 @@ header h1 {
     display: none !important;
 }
 
+.sortable-ghost {
+    background-color: var(--clr-primary-a30);
+}
+
 .addTask {
     width: 30%;
 }

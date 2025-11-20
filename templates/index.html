@@ -6,7 +6,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
         <link href="/static/css/main.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
+
     </head>
     <body>
         <header>
@@ -25,8 +29,9 @@
                 {% set est_time = task[4] %}
                 {% set priority = task[5] %}
                 {% set isComplete = task[6] %}
+                {% set position = task[7] %}
                 
-                <div class="task" data-id="{{rowid}}">
+                <div class="task drag-handle" data-position="{{position}}" data-id="{{rowid}}">
                     
                     <input class="complete-checkbox" type="checkbox" data-id="{{rowid}}" {% if task.complete %} checked {% endif %}>
 

@@ -1,4 +1,37 @@
 $(document).ready(function() {
+            $(".task-container").sortable({
+                animation: 150,
+                handle: ".drag-handle",
+
+                onEnd: function(evt) {
+                    var order = getTaskOrder();
+                    console.log("Drag finished! New order: ", order);
+                    $.ajax({
+                        url: "/reorder-tasks",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ order: order }),
+                        success: function(response) {
+                            console.log("Reorder saved:", response);
+                        },
+                        error: function(xhr) {
+                            console.error("Error saving order:", xhr.responseText);
+                        }
+                    });
+                }
+            });
+
+            function getTaskOrder() {
+                const order = [];
+                document.querySelectorAll('.task').forEach((task, index) => {
+                    order.push({
+                        id: task.dataset.id,
+                        position: index
+                    });
+                });
+                return order;
+            }
+
             $(".complete-checkbox").on("change", function() {
                 const taskId = $(this).data("id");
                 const complete = $(this).is(":checked") ? 1 : 0;
@@ -93,7 +126,7 @@ $(document).ready(function() {
                 
                 const parentTask = $(this).closest('.task');
                 const taskId = parentTask.data("id");
-                
+
                 console.log(parentTask);
                 $.ajax({
                     url: "/delete-task",

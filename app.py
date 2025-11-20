@@ -20,7 +20,7 @@ def close_db(exception):
 @app.route("/")
 def index():
     db = get_db()
-    cur = db.execute("SELECT rowid, * FROM tasks")
+    cur = db.execute("SELECT rowid, * FROM tasks ORDER BY position")
     tasks = cur.fetchall()
     return render_template("index.html", tasks=tasks)
 
@@ -98,6 +98,23 @@ def editTask():
         "UPDATE tasks SET title = ?, due_date = ?, time = ?, est_time = ?, priority = ? WHERE rowid = ?",
         (title, due_date, time, time_est, priority, int(task_id))
     )
+    db.commit()
+
+    return jsonify({"status": "ok"})
+
+@app.route("/reorder-tasks", methods=["POST"])
+def reorder_tasks():
+    data = request.get_json()
+    order_list = data.get("order", [])
+    print(f'Order list: {order_list}')
+    db = get_db()
+    for item in order_list:
+        task_id = item["id"]
+        position = item["position"]
+        db.execute(
+            "UPDATE tasks SET position = ? WHERE rowid = ?",
+            (position, task_id)
+        )
     db.commit()
 
     return jsonify({"status": "ok"})
