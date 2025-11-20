@@ -103,6 +103,7 @@ header h1 {
     display: flex;
     flex-flow: row;
     padding-top: 1em;
+    justify-content: space-around;
 }
 
 .task {
@@ -110,7 +111,7 @@ header h1 {
     width: 85%;
     border: 1px solid grey;
     border-radius: 3px;
-    margin: .5em;
+    margin-bottom: 1em;
     background-color: var(--clr-surface-a10);
     display: flex;
     align-items: flex-start;
@@ -177,9 +178,9 @@ form {
     padding: 3em 0;
 }
 
-
-
-
 #main {
     width: 65%;
+    height: 80vh;
+    overflow-y: scroll;
+    scrollbar-color: var(--clr-surface-a0) var(--clr-surface-a20);
 }
