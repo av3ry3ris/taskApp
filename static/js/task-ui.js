@@ -63,6 +63,8 @@ $(document).ready(function() {
 
             $(".delete-task").on("click", function() {
                 const taskId = $(this).data("id");
+                const parentTask = $(this).closest('.task');
+                console.log(parentTask);
                 $.ajax({
                     url: "/delete-task",
                     type: "POST",
@@ -72,6 +74,7 @@ $(document).ready(function() {
                     }),
                     success: function(response) {
                         console.log("Deleted:", response);
+                        parentTask.remove();
                     },
                     error: function(xhr) {
                         console.error("Error deleting task:", xhr.responseText);
@@ -79,7 +82,8 @@ $(document).ready(function() {
                 });
             });
 
-            $(".edit-task").on("click", function() {
+            $(".task").on("click", ".edit-task", function() {
+                $(this).addClass('hidden');
                 var parent = $(this).parents('.task').children('.task-content');
                 
                 var title = parent.find(".title");
@@ -94,6 +98,14 @@ $(document).ready(function() {
                 var est_time_text = parent.find(".est_time").text();
                 var priority_text = parent.find(".priority").text();
                 
+                task = $(this).closest('.task');
+                task.data("oldTitle", task.find(".title").text());
+                task.data("oldDate", task.find(".due_date").text());
+                task.data("oldTime", task.find(".time").text());
+                task.data("oldEst", task.find(".est_time").text());
+                task.data("oldPri", task.find(".priority").text());
+
+
                 // console.log(title_text, due_date_text, time_text, est_time_text, priority_text);
 
                 title.replaceWith('<input class="title">');
@@ -121,7 +133,35 @@ $(document).ready(function() {
                 priority.val(priority_text);
 
                 parent.append('<div class="button-group"><button class="button btn-primary submit-edit">Submit</button><button class="button btn-cancel cancel-edit">Cancel</button></div>');
+                    
+                
+
             });
+            
+            $('.task').on("click", ".cancel-edit", function() {
+                        const parent = $(this).closest('.task-content');
+                        const taskId = $(this).parents('.task').data("id");
+
+                        const oldTitle = task.data("oldTitle");
+                        const oldDate  = task.data("oldDate");
+                        const oldTime  = task.data("oldTime");
+                        const oldEst   = task.data("oldEst");
+                        const oldPri   = task.data("oldPri");
+                        
+                        var oldContent = `<div class="task-content">
+                                            <i>Task ID: <span>${taskId}</span></i>
+                                            <h2 class="title">${oldTitle}</h2>
+                                            <p>Due: <span class="due_date">${oldDate}</span> <span class="time">${oldTime}</span></p>
+                                            <p>Est. task time: <span class="est_time">${oldEst}</span></p>
+                                            <p>Priority: <span class="priority">${oldPri}</span></p>
+                                        </div>`; 
+                        
+                        
+                        var editBtn = $(this).closest('.task').find('.edit-task');
+                        console.log(editBtn);
+                        editBtn.removeClass('hidden');
+                        parent.replaceWith(oldContent);
+                });
             
             $(".task").on("click", ".submit-edit", function() {
                 const parent = $(this).closest('.task-content');
@@ -152,6 +192,8 @@ $(document).ready(function() {
                 
                 parent.replaceWith(newContent);
             });
+
+           
 
 function submitTaskEdit(taskId, title, due_date, time, est_time, priority) {
             
