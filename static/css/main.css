@@ -209,3 +209,7 @@ form {
     overflow-y: auto;
     scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
 }
+
+.hidden {
+    display: none !important;
+}
