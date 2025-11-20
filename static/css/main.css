@@ -181,6 +181,6 @@ form {
 #main {
     width: 65%;
     height: 80vh;
-    overflow-y: scroll;
-    scrollbar-color: var(--clr-surface-a0) var(--clr-surface-a20);
+    overflow-y: auto;
+    scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
 }
