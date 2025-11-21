@@ -317,7 +317,7 @@ function appendTask(response) {
     const est_time = response.task.time_est;
     const pri = response.task.priority;
 
-    const newTaskHtml = `<div class="task">
+    const newTaskHtml = `<div class="task" data-id="${taskID}">
                                         <input class="complete-checkbox" type="checkbox" data-id="${taskID}"></input>
                                         <div class="task-content">
                                             <i>Task ID: ${taskID}</i>
@@ -328,11 +328,11 @@ function appendTask(response) {
                                         </div>
                                         <div class="btns-box">
                                             <i class="edit-task fa-solid fa-pencil" data-id="${taskID}"></i>
-                                            <i class="delete-task fa-solid fa-trash" data-id="${taskID}"></i>
+                                            <i class="promptDelete fa-solid fa-trash" data-id="${taskID}"></i>
                                         </div>
                                     </div>`;
 
-    $(".task-container").append(newTaskHtml);
+    $(".incomplete").append(newTaskHtml);
 }
 
 function sortTasksInBrowser() {
