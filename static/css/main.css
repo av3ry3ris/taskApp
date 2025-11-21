@@ -113,17 +113,19 @@ header h1 {
 }
 
 #main {
-    width: 65%;
-    height: 80vh;
-    overflow-y: auto;
-    scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
+
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    align-items: center;
+    
 }
 
 .content-container {
     display: flex;
-    flex-flow: row;
-    padding-top: 1em;
-    justify-content: space-around;
+    flex-flow: column;
+    justify-content: center;
 }
 
 .task {
@@ -140,9 +142,13 @@ header h1 {
 
 .task-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-flow: column;
     align-items: center;
+    overflow-y: auto;
+    height: 80vh;
+    scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
+    padding-top: 1em;
 }
 
 .task-content {
@@ -157,6 +163,14 @@ header h1 {
 
 .done {
     text-decoration: line-through;
+}
+
+.completed, .incomplete{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: column;
+    align-items: center;
 }
 
 .task i {

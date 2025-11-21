@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-        <link href="/static/css/main.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet">
-        
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
 
-    </head>
-    <body>
-        <header>
-            <h1>Task Manager App</h1>
-        </header>
-        <div class="content-container">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1>Task Manager App</h1>
+    </header>
+    <div class="content-container">
+        <div class="sort-options">
+            <select id="sort-by">
+                <option value="manual">Manual (drag & drop)</option>
+                <option value="due_date">Due date</option>
+                <option value="est_time">Estimated time</option>
+                <option value="priority">Priority</option>
+            </select>
+
+            <select id="sort-dir">
+                <option value="asc">Asc</option>
+                <option value="desc">Desc</option>
+            </select>
+        </div>
         <section id="main">
-            
+
             <div class="task-container">
-                
+                <h2>To Do</h2>
+                <div class="incomplete">
                 {% for task in tasks %}
+
                 {% set rowid = task[0] %}
                 {% set title = task[1] %}
                 {% set due_date = task[2] %}
@@ -30,11 +48,11 @@
                 {% set priority = task[5] %}
                 {% set isComplete = task[6] %}
                 {% set position = task[7] %}
-                
-                <div class="task drag-handle" data-position="{{position}}" data-id="{{rowid}}">
-                    
-                    <input class="complete-checkbox" type="checkbox" data-id="{{rowid}}" {% if task.complete %} checked {% endif %}>
 
+                {% if not task.complete %}
+                <div class="task drag-handle" data-position="{{position}}" data-id="{{rowid}}">
+
+                    <input class="complete-checkbox" type="checkbox" data-id="{{rowid}}">
                     <div class="task-content {%if task.complete %}done{% endif %}">
                         <i>Task ID: <span>{{rowid}}</span></i>
                         <h2 class="title">{{title}}</h2>
@@ -42,28 +60,66 @@
                         <p>Est. task time: <span class="est_time">{{est_time}}</span></p>
                         <p>Priority: <span class="priority">{{priority}}</span></p>
                     </div>
-                <div class="btns-box">
-                    <i class="edit-task fa-solid fa-pencil" data-id="{{rowid}}"></i>
-                    <i class="promptDelete fa-solid fa-trash" data-id="{{rowid}}"></i>
+                    <div class="btns-box">
+                        <i class="edit-task fa-solid fa-pencil" data-id="{{rowid}}"></i>
+                        <i class="promptDelete fa-solid fa-trash" data-id="{{rowid}}"></i>
+                    </div>
                 </div>
+                {% endif %}
+                {% endfor %}
+                </div>
+                <div class="completed">
+                    <h2 class="section-header">Completed Tasks</h2>
+
+                {% for task in tasks %}
+
+                {% set rowid = task[0] %}
+                {% set title = task[1] %}
+                {% set due_date = task[2] %}
+                {% set time = task[3] %}
+                {% set est_time = task[4] %}
+                {% set priority = task[5] %}
+                {% set isComplete = task[6] %}
+                {% set position = task[7] %}
+
+                
+                {% if task.complete %}
+                
+                <div class="task done" data-position="{{position}}" data-id="{{rowid}}">
+
+                    <input class="complete-checkbox" type="checkbox" data-id="{{rowid}}" checked>
+
+                    <div class="task-content">
+                        <i>Task ID: <span>{{rowid}}</span></i>
+                        <h2 class="title">{{title}}</h2>
+                        <p>Due: <span class="due_date">{{due_date}}</span> <span class="time">{{time}}</span></p>
+                        <p>Est. task time: <span class="est_time">{{est_time}}</span></p>
+                        <p>Priority: <span class="priority">{{priority}}</span></p>
+                    </div>
+                    <div class="btns-box">
+                        <i class="edit-task fa-solid fa-pencil" data-id="{{rowid}}"></i>
+                        <i class="promptDelete fa-solid fa-trash" data-id="{{rowid}}"></i>
+                    </div>
                 </div>
                 
-                {%endfor%}
+                {% endif %}
+                {% endfor %}
             </div>
-        </section>
-        <section class="addTask">
-            <div class="form-container">
-                <h1>Add Task</h1>
-                <form id="newTask">
-                    <label for="title">Title</label>
-                    <input id="title" placeholder="Eat a meal">
-                    <label for="due_date">Due Date</label>
-                    <input id="due_date" type="date">
-                    <label for="time">Time</label>
-                    <input id="time" type="time" placeholder="Time">
-                    <label for="time_est">Estimated Time</label>
-                    <input id="time_est" placeholder="Time in Hours">
-                    <label for="priority">Priority</label>
+            </div>
+
+            <aside class="addTask">
+                <div class="form-container">
+                    <h1>Add Task</h1>
+                    <form id="newTask">
+                        <label for="title">Title</label>
+                        <input id="title" placeholder="Eat a meal">
+                        <label for="due_date">Due Date</label>
+                        <input id="due_date" type="date">
+                        <label for="time">Time</label>
+                        <input id="time" type="time" placeholder="Time">
+                        <label for="time_est">Estimated Time</label>
+                        <input id="time_est" placeholder="Time in Hours">
+                        <label for="priority">Priority</label>
                         <select name="priority" id="priority">
                             <option value="Highest">Highest</option>
                             <option value="High">High</option>
@@ -71,12 +127,15 @@
                             <option value="Low">Low</option>
                             <option value="Lowest">Lowest</option>
                         </select>
-                    <button class="button btn-primary addTask-btn">Submit</button>
-                </form>
+                        <button class="button btn-primary addTask-btn">Submit</button>
+                    </form>
                 </div>
+            </aside>
         </section>
-        </div>
-    
+
+    </div>
+
     <script src="/static/js/task-ui.js"></script>
-    </body>
+</body>
+
 </html>
