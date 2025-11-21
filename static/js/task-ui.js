@@ -53,7 +53,7 @@ $(document).ready(function () {
                 } else {
                     
                     $task.removeClass("done");
-                    $task.appendTo($incompleteArea);
+                    $task.prependTo($incompleteArea);
                 }
 
                 console.log("New parent:", $task.parent().attr("class"));
@@ -339,7 +339,7 @@ function sortTasksInBrowser() {
     const sortBy = $("#sort-by").val();
     const sortDir = $("#sort-dir").val();
 
-    const $tasks = $(".task-container .task").toArray();
+    const $tasks = $(".incomplete .task").toArray();
 
     if (sortBy === "manual") {
         return $tasks;
@@ -412,5 +412,5 @@ function applySortAndSave() {
 
     saveTaskOrder(newOrder);
 
-    $(".task-container").append(sorted);
+    $(".incomplete").append(sorted);
 }
