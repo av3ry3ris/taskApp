@@ -1,5 +1,6 @@
 import sqlite3
 from flask import Flask, render_template, request, jsonify, g
+from datetime import date
 
 app = Flask(__name__)
 
@@ -118,3 +119,35 @@ def reorder_tasks():
     db.commit()
 
     return jsonify({"status": "ok"})
+
+
+@app.route("/today")
+def today_view():
+    db = get_db()
+
+    requested_date = request.args.get("date")
+    if requested_date is None:
+        requested_date = date.today().isoformat()  
+
+    
+    cur = db.execute(
+        "SELECT rowid, * FROM tasks WHERE due_date = ? ORDER BY time",
+        (requested_date,)
+    )
+    tasks = cur.fetchall()
+
+    # bucket tasks by hour for the schedule layout
+    tasks_by_hour = {h: [] for h in range(24)}
+    for t in tasks:
+        t_time = t["time"] or ""           
+        hour = int(t_time.split(":")[0]) if ":" in t_time else None
+        if hour is not None and hour in tasks_by_hour:
+            tasks_by_hour[hour].append(t)
+
+    return render_template(
+        "today.html",
+        tasks_by_hour=tasks_by_hour,
+        selected_date=requested_date,
+    )
+
+

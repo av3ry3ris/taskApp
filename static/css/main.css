@@ -124,6 +124,7 @@ header h1 {
     flex-flow: column;
     padding: 1em;
     align-items: center;
+    width: 10%;
     
 }
 
@@ -155,6 +156,7 @@ header h1 {
     display: flex;
     flex-flow: column;
     justify-content: center;
+    width: 100%;
 }
 
 .task {
@@ -214,9 +216,10 @@ header h1 {
     align-items: flex-start;
 }
 
-.btns-box i:first-child {
-    padding-right: .75em;
-}
+.btns-box i:not(:last-child) {
+    padding-right: .85em;
+} 
+
 .btns-box i:hover {
     cursor: pointer;
 }
@@ -249,3 +252,119 @@ form {
     padding: 3em 0;
 }
 
+/* Today Page  */
+
+#today-schedule .schedule-container {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.75em;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding-right: 0.5em;
+    scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
+}
+
+.hour-slot {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    background-color: var(--clr-surface-a10);
+    border-radius: 4px;
+    border: 1px solid var(--clr-surface-a30);
+    padding: 0.5em 0.75em;
+    gap: 0.75em;
+}
+
+.hour-label {
+    width: 4rem;
+    min-width: 4rem;
+    font-weight: 600;
+    color: var(--clr-primary-a30);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 0.25em;
+}
+
+.hour-tasks {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.4em;
+}
+
+/* Compact version of task cards inside the schedule */
+.compact-task {
+    padding: 0.5em 0.75em;
+    margin-bottom: 0;
+    background-color: var(--clr-surface-tonal-a10);
+    border: 1px solid var(--clr-surface-a40);
+    border-radius: 3px;
+    width: 94%;
+}
+
+.compact-task .task-content {
+    width: 100%;
+}
+
+.compact-task .title {
+    font-size: 0.95em;
+    margin-bottom: 0.15em;
+}
+
+.compact-task p {
+    font-size: 0.8em;
+    color: var(--clr-surface-a50);
+}
+
+.compact-task .btns-box {
+    width: auto;
+    justify-content: flex-end;
+}
+
+.todaysTasks {
+    width: 45%;
+}
+
+.todaysTasks .task-container {
+    width: 100%;
+}
+
+.content-container form {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-container form button {
+    margin: 0;
+}
+
+.content-container form input {
+    margin: 0 .5em;
+    
+}
+
+.content-container h1 {
+    padding-right: 1em;
+}
+
+/* Drag visuals in schedule, consistent with your Sortable ghost */
+.hour-tasks .sortable-ghost,
+.schedule-container .sortable-ghost {
+    background-color: var(--clr-primary-a30);
+}
+
+/* Make hour list look nice on smaller widths */
+@media (max-width: 1000px) {
+    #main {
+        flex-flow: column;
+        align-items: stretch;
+    }
+
+    .todaysTasks,
+    #today-schedule {
+        width: 100%;
+    }
+}

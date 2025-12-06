@@ -92,6 +92,11 @@ $(document).on("click", '.addTask-btn', function (e) {
         success: function (response) {
             console.log("Added:", response);
             appendTask(response);
+            $('#title').val('');
+            $('#due_date').val('');
+            $('#time').val('');
+            $('#time_est').val('');
+            
         },
         error: function (xhr) {
             console.error("Error adding task:", xhr.responseText);

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Today – Task Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <aside class="sideBar">
+        <h2>Views</h2>
+        <ul>
+            <li><a href="{{ url_for('index') }}">All Tasks</a></li>
+            <li><a href="{{ url_for('today_view') }}">Today</a></li>
+        </ul>
+    </aside>
+
+    <div class="content-container">
+        <header>
+            <h1>Daily Tasks - {{ selected_date }}</h1>
+            <div class="sort-options">
+                <form method="get" action="{{ url_for('today_view') }}">
+                    <input type="date" name="date" value="{{ selected_date }}">
+                    <button class="button btn-primary" type="submit">Go</button>
+                </form>
+            </div>
+        </header>
+
+        <section id="main">
+            <!-- Left: today’s tasks list (same look as main page) -->
+            <section class="todaysTasks">
+                <h2>Today's Tasks</h2>
+                <div class="task-container">
+                    {% for hour in range(0, 24) %}
+
+                        
+                        {% for task in tasks_by_hour[hour] %}
+                            <div class="task {% if task.complete %}done{% endif %}" data-id="{{ task['rowid'] }}">
+                                <input class="complete-checkbox" type="checkbox"
+                                       data-id="{{ task['rowid'] }}"
+                                       {% if task.complete %} checked {% endif %}>
+                                <div class="task-content">
+                                    <i>Task ID: <span>{{ task['rowid'] }}</span></i>
+                                    <h2 class="title">{{ task['title'] }}</h2>
+                                    <p>Due: <span class="due_date">{{ task['due_date'] }}</span>
+                                        <span class="time">{{ task['time'] }}</span>
+                                    </p>
+                                    <p>Est. task time: <span class="est_time">{{ task['est_time'] }}</span></p>
+                                    <p>Priority: <span class="priority">{{ task['priority'] }}</span></p>
+                                </div>
+                                <div class="btns-box">
+                                    <i class="drag-handle fa-solid fa-grip-lines"></i>
+                                    <i class="edit-task fa-solid fa-pencil" data-id="{{ task['rowid'] }}"></i>
+                                    <i class="delete-task fa-solid fa-trash" data-id="{{ task['rowid'] }}"></i>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Right: schedule / timeline -->
+            <section id="today-schedule">
+                <h2>Schedule</h2>
+                <div class="schedule-container">
+                    {% for hour in range(0, 24) %}
+                        <div class="hour-slot" data-hour="{{ hour }}">
+                            <div class="hour-label">
+                                {{ "%02d:00" % hour }}
+                            </div>
+                            <div class="hour-tasks">
+                                {% for task in tasks_by_hour[hour] %}
+                                    <div class="task compact-task {% if task.complete %}done{% endif %}" data-id="{{ task['rowid'] }}">
+                                        <div class="task-content">
+                                            <h3 class="title">{{ task['title'] }}</h3>
+                                            <p>
+                                                <span class="time">{{ task['time'] }}</span> ·
+                                                <span class="est_time">{{ task['est_time'] }}</span>h ·
+                                                <span class="priority">{{ task['priority'] }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="btns-box">
+                                            <i class="drag-handle fa-solid fa-grip-lines"></i>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </section>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="/static/js/task-ui.js"></script>
+</body>
+</html>
