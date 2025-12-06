@@ -56,6 +56,8 @@ body {
     font-family: "Arimo", sans-serif;
     background: var(--clr-surface-a0);
     color: var(--clr-light-a0);
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 
@@ -112,6 +114,33 @@ header h1 {
     font-weight: 700;
 }
 
+.sort-options {
+    padding: 0.25em 1em; 
+}
+
+.sideBar {
+    background: var(--clr-surface-a20);
+    display: flex;
+    flex-flow: column;
+    padding: 1em;
+    align-items: center;
+    
+}
+
+.sideBar ul {
+    padding: 1em;
+}
+
+.sideBar ul li {
+    list-style-type: none;
+    padding: .5em 0;
+}
+
+.sideBar ul li a {
+    text-decoration: none;
+    color: var(--clr-primary-a0);
+}
+
 #main {
 
     width: 100%;
@@ -146,7 +175,7 @@ header h1 {
     flex-flow: column;
     align-items: center;
     overflow-y: auto;
-    height: 80vh;
+    height: 90vh;
     scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
     padding-top: 1em;
 }
@@ -165,7 +194,7 @@ header h1 {
     text-decoration: line-through;
 }
 
-.completed, .incomplete{
+.completed, .incomplete, .todaysTasks{
     width: 100%;
     display: flex;
     justify-content: flex-start;
