@@ -317,7 +317,7 @@ function appendTask(response) {
     const est_time = response.task.time_est;
     const pri = response.task.priority;
 
-    const newTaskHtml = `<div class="task" data-id="${taskID}">
+    const newTaskHtml = `<div class="task drag-handle" data-id="${taskID}">
                                         <input class="complete-checkbox" type="checkbox" data-id="${taskID}"></input>
                                         <div class="task-content">
                                             <i>Task ID: ${taskID}</i>
