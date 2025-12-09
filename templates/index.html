@@ -16,12 +16,14 @@
 </head>
 
 <body>
-    <nav class="sideBar">
+    <aside class="sideBar">
+        <h2>Views</h2>
         <ul>
-            <li><a href="#">All tasks</a></li>
-            <li><a href="/today">Today's Tasks</a></li>
-        </ul>        
-        </nav>
+            <li><a href="{{ url_for('index') }}">All Tasks</a></li>
+            <li><a href="{{ url_for('week_view') }}">Weekly</a></li>
+            <li><a href="{{ url_for('month_view') }}">Monthly</a></li>
+        </ul>
+    </aside>
     <div class="content-container">
         
         <div class="sort-options">

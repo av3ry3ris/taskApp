@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ month_name }} {{ year }} – Task Calendar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <aside class="sideBar">
+        <h2>Views</h2>
+        <ul>
+            <li><a href="{{ url_for('index') }}">All Tasks</a></li>
+            <li><a href="{{ url_for('week_view') }}">Weekly</a></li>
+            <li><a href="{{ url_for('month_view') }}">Monthly</a></li>
+        </ul>
+    </aside>
+
+    <div class="content-container">
+        <header>
+            <h1>{{ month_name }} {{ year }} – Calendar</h1>
+            <div class="sort-options">
+                <a class="button btn-primary" href="{{ url_for('month_view', year=prev_year, month=prev_month) }}">
+                    &laquo; Prev
+                </a>
+                <a class="button btn-primary" href="{{ url_for('month_view', year=next_year, month=next_month) }}">
+                    Next &raquo;
+                </a>
+            </div>
+        </header>
+
+        <section id="main">
+            <section class="month-view">
+                <div class="month-calendar">
+                    <div class="month-header-row">
+                        <div class="day-name">Mon</div>
+                        <div class="day-name">Tue</div>
+                        <div class="day-name">Wed</div>
+                        <div class="day-name">Thu</div>
+                        <div class="day-name">Fri</div>
+                        <div class="day-name">Sat</div>
+                        <div class="day-name">Sun</div>
+                    </div>
+
+                    <div class="month-grid">
+                        {% for week in weeks %}
+                        <div class="week-row">
+                            {% for day in week %}
+                            <div class="day-cell
+            {% if not day.is_current_month %} day-outside{% endif %}
+            {% if day.is_today %} day-today{% endif %}" data-date="{{ day.date_str }}">
+
+                                <div class="day-number">{{ day.date.day }}</div>
+
+                                <div class="day-tasks">
+                                    {% for task in day.tasks %}
+                                    <div class="day-task-pill {% if task.complete %}done{% endif %}"
+                                        data-id="{{ task['rowid'] }}">
+                                        <span class="pill-title">{{ task['title'] }}</span>
+                                        {% if task['time'] %}
+                                        <span class="pill-time time">{{ task['time'] }}</span>
+                                        {% endif %}
+                                        {% if task['priority'] %}
+                                        <span class="pill-priority">{{ task['priority'] }}</span>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+    <script>
+        $(document).on("click", ".day-cell", function () {
+            const dateStr = $(this).find(".day-number").data("date");
+
+        });
+
+        document.querySelectorAll(".day-tasks").forEach(function (el) {
+    new Sortable(el, {
+        group: {
+            name: "month-days",
+            pull: true,
+            put: true
+        },
+        animation: 150,
+        // handle: ".pill-handle", // only if you added one
+        onEnd: function (evt) {
+            const pill   = evt.item;
+            const $pill  = $(pill);
+            const taskId = $pill.data("id");
+
+            const dayCell = evt.to.closest(".day-cell");
+            if (!dayCell) return;
+
+            const newDate = dayCell.dataset.date;
+
+            $.ajax({
+                url: "/schedule-task",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id: taskId,
+                    scheduled_date: newDate,
+                    scheduled_time: null
+                }),
+                success: function (res) {
+                    console.log("Rescheduled date:", taskId, newDate);
+                },
+                error: function (xhr) {
+                    console.error("Error rescheduling:", xhr.responseText);
+                }
+            });
+        }
+    });
+});
+
+    </script>
+</body>
+
+</html>

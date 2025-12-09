@@ -118,6 +118,15 @@ header h1 {
     padding: 0.25em 1em; 
 }
 
+.sort-options .btn-primary {
+    background-color: var(--clr-primary-a20);
+    color: var(--clr-light-a0);
+    padding: 0.5em 1em;
+    margin: .5em;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
 .sideBar {
     background: var(--clr-surface-a20);
     display: flex;
@@ -332,7 +341,7 @@ form {
 
 .content-container form {
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     justify-content: center;
     align-items: center;
 }
@@ -342,8 +351,8 @@ form {
 }
 
 .content-container form input {
-    margin: 0 .5em;
-    
+    margin: .8em;
+    width: 100%;
 }
 
 .content-container h1 {
@@ -355,6 +364,267 @@ form {
 .schedule-container .sortable-ghost {
     background-color: var(--clr-primary-a30);
 }
+
+/* Monthly calendar */
+
+.month-view {
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.month-calendar {
+    width: 95%;
+    background-color: var(--clr-surface-a10);
+    border-radius: 4px;
+    border: 1px solid var(--clr-surface-a30);
+    padding: 1em;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.5em;
+}
+
+.month-header-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 0.5em;
+}
+
+.day-name {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.85em;
+    color: var(--clr-surface-a50);
+}
+
+.month-grid {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.25em;
+}
+
+.week-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25em;
+}
+
+.day-cell {
+    min-height: 6rem;
+    background-color: var(--clr-surface-a20);
+    border-radius: 4px;
+    border: 1px solid var(--clr-surface-a30);
+    padding: 0.35em 0.4em;
+    display: flex;
+    flex-flow: column nowrap;
+    font-size: 0.8em;
+    cursor: default;
+}
+
+.day-cell:hover {
+    border-color: var(--clr-primary-a30);
+}
+
+.day-number {
+    font-weight: 600;
+    color: var(--clr-light-a0);
+    margin-bottom: 0.25em;
+}
+
+.day-outside .day-number {
+    color: var(--clr-surface-a50);
+}
+
+.day-outside {
+    background-color: var(--clr-surface-a10);
+    opacity: 0.75;
+}
+
+.day-today {
+    border: 1px solid var(--clr-primary-a20);
+    box-shadow: 0 0 0 1px var(--clr-primary-a10);
+}
+
+.day-tasks {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.2em;
+    overflow: hidden;
+}
+
+.day-task-pill {
+    background-color: var(--clr-surface-tonal-a10);
+    border-radius: 3px;
+    padding: 0.15em 0.3em;
+    border: 1px solid var(--clr-surface-a40);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25em;
+    align-items: baseline;
+}
+
+.day-task-pill.done {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.day-task-pill .pill-title {
+    font-weight: 500;
+    font-size: 0.75em;
+}
+
+.day-task-pill .pill-time {
+    font-size: 0.7em;
+    color: var(--clr-info-a20);
+}
+
+.day-task-pill .pill-priority {
+    font-size: 0.7em;
+    color: var(--clr-primary-a30);
+}
+
+/* Weekly schedule view */
+
+.week-schedule {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0.5em;
+    padding: 1em;
+    overflow-x: auto;
+}
+
+.week-day-column {
+    flex: 1;
+    min-width: 220px;
+    background-color: var(--clr-surface-a10);
+    border-radius: 4px;
+    border: 1px solid var(--clr-surface-a30);
+    display: flex;
+    flex-flow: column nowrap;
+    max-height: 90vh;
+    min-height: 87vh;
+}
+
+.week-day-header {
+    padding: 0.5em 0.75em;
+    border-bottom: 1px solid var(--clr-surface-a30);
+    background-color: var(--clr-surface-tonal-a10);
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+.week-day-name {
+    font-weight: 700;
+    font-size: 0.9em;
+}
+
+.week-day-date {
+    font-size: 0.8em;
+    color: var(--clr-surface-a50);
+}
+
+.week-day-hours {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5em;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.35em;
+    scrollbar-color: var(--clr-surface-a20) var(--clr-surface-a0);
+}
+
+.week-hour-slot {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    gap: 0.5em;
+    padding: 0.25em 0.35em;
+    border-radius: 3px;
+    background-color: var(--clr-surface-a20);
+    border: 1px solid var(--clr-surface-a30);
+}
+
+.week-hour-label {
+    width: 3.5rem;
+    min-width: 3.5rem;
+    font-size: 0.75em;
+    color: var(--clr-primary-a30);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 0.1em;
+}
+
+.week-hour-tasks {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.25em;
+}
+
+/* Reuse compact-task styling from Today view, but it's here in case you didn't add it yet */
+
+.compact-task {
+    padding: 0.5em 0.75em;
+    margin-bottom: 0;
+    background-color: var(--clr-surface-tonal-a10);
+    border: 1px solid var(--clr-surface-a40);
+    border-radius: 3px;
+    width: 100%;
+}
+
+.compact-task .task-content {
+    width: 100%;
+}
+
+.compact-task .title {
+    font-size: 0.9em;
+    margin-bottom: 0.15em;
+}
+
+.compact-task p {
+    font-size: 0.75em;
+    color: var(--clr-surface-a50);
+}
+
+.week-hour-tasks .sortable-ghost {
+    background-color: var(--clr-primary-a30);
+}
+
+/* Responsive: stack columns on narrow screens */
+
+@media (max-width: 1100px) {
+    .week-schedule {
+        flex-flow: row nowrap;
+        overflow-x: auto;
+    }
+
+    .week-day-column {
+        min-width: 250px;
+    }
+}
+
+
+/* Responsive */
+@media (max-width: 900px) {
+    .month-calendar {
+        width: 100%;
+        padding: 0.5em;
+    }
+
+    .day-cell {
+        min-height: 4.5rem;
+    }
+
+    .day-task-pill {
+        font-size: 0.7em;
+    }
+}
+
 
 /* Make hour list look nice on smaller widths */
 @media (max-width: 1000px) {

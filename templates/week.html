@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Weekly Schedule – Task Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <aside class="sideBar">
+        <h2>Views</h2>
+        <ul>
+            <li><a href="{{ url_for('index') }}">All Tasks</a></li>
+            <li><a href="{{ url_for('week_view') }}">Weekly</a></li>
+            <li><a href="{{ url_for('month_view') }}">Monthly</a></li>
+        </ul>
+    </aside>
+
+    <div class="content-container">
+        <header>
+            <h1>Weekly Schedule</h1>
+            <div class="sort-options">
+                <a class="button btn-primary"
+                   href="{{ url_for('week_view', start=prev_start.isoformat()) }}">
+                    &laquo; Prev week
+                </a>
+                <a class="button btn-primary"
+                   href="{{ url_for('week_view', start=start_date.isoformat()) }}">
+                    This week
+                </a>
+                <a class="button btn-primary"
+                   href="{{ url_for('week_view', start=next_start.isoformat()) }}">
+                    Next week &raquo;
+                </a>
+            </div>
+        </header>
+
+        <section id="main">
+            <section class="week-schedule">
+                <!-- 7 day columns -->
+                {% for day in days %}
+                    {% set d_str = day.isoformat() %}
+                    <div class="week-day-column">
+                        <div class="week-day-header">
+                            <div class="week-day-name">
+                                {{ day.strftime("%a") }}
+                            </div>
+                            <div class="week-day-date">
+                                {{ day.strftime("%b %d") }}
+                            </div>
+                        </div>
+
+                        <div class="week-day-hours">
+                            {% for hour in range(8, 21) %} {# 08:00–20:00 like today view #}
+                                <div class="week-hour-slot" data-date="{{ d_str }}" data-hour="{{ hour }}">
+                                    <div class="week-hour-label">
+                                        {{ "%02d:00" % hour }}
+                                    </div>
+                                    <div class="week-hour-tasks">
+                                        {% for task in tasks_by_day_hour[d_str][hour] %}
+                                            <div class="drag-handle task compact-task {% if task.complete %}done{% endif %}"
+                                                 data-id="{{ task['rowid'] }}">
+                                                <div class="task-content">
+                                                    <h3 class="title">{{ task['title'] }}</h3>
+                                                    <p>
+                                                        <span class="time">{{ task['time'] }}</span>
+                                                        · <span class="est_time">{{ task['est_time'] }}</span>h
+                                                        · <span class="priority">{{ task['priority'] }}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="btns-box">
+                                                    <i class="promptDelete fa-solid fa-trash" data-id="{{rowid}}"></i>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </section>
+        </section>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- later: sortableJS here if you want drag between hours/days -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- <script src="{{ url_for('static', filename='js/task-ui.js') }}"></script> -->
+
+    <script>
+$(function () {
+    // Make each hour's task list sortable + cross-day draggable
+    document.querySelectorAll(".week-hour-tasks").forEach(function (el) {
+        new Sortable(el, {
+            group: "week-schedule",
+            animation: 150,
+            handle: ".drag-handle",
+            onEnd: function (evt) {
+                const taskEl = evt.item;  // .task
+                const $task = $(taskEl);
+                const taskId = $task.data("id");
+
+                const slot = evt.to.closest(".week-hour-slot");
+                if (!slot) return;
+
+                const newDate = slot.dataset.date;       // "YYYY-MM-DD"
+                const newHour = slot.dataset.hour;       // "8", "9", etc.
+                const newTime = String(newHour).padStart(2, "0") + ":00";
+
+                // Optimistic UI update: update the displayed time inside card
+                $task.find(".time").text(newTime);
+
+                $.ajax({
+                    url: "/schedule-task",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        id: taskId,
+                        scheduled_date: newDate,
+                        scheduled_time: newTime
+                    }),
+                    success: function (res) {
+                        console.log("Scheduled:", taskId, newDate, newTime, res);
+                    },
+                    error: function (xhr) {
+                        console.error("Error scheduling:", xhr.responseText);
+                        // (optionally) reload or revert
+                    }
+                });
+            }
+        });
+    });
+});
+
+    </script>
+</body>
+</html>
